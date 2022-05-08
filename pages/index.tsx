@@ -1,11 +1,10 @@
-import { Button, Flex, HStack, Text } from '@chakra-ui/react';
+import {Flex} from '@chakra-ui/react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
+import { LandingBody } from '../components/organisms/LandingBody/LandingBody';
 import { Hero } from '../components/molecules/Hero/Hero';
-import { MenuItem } from '../components/molecules/MenuItems/MenuItem';
 import Navbar from '../components/organisms/Navbar/Navbar';
-import styles from '../styles/Home.module.css';
+import { LandingFooter } from '../components/organisms/LandingFooter/LandingFooter';
 
 const Home: NextPage = () => {
     return (
@@ -18,6 +17,8 @@ const Home: NextPage = () => {
             <Flex>
                 <Hero />
             </Flex>
+            <LandingBody />
+            <LandingFooter />
         </div>
     );
 };
