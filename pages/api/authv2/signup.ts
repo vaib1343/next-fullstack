@@ -4,7 +4,7 @@ import prisma from '../../../utils/prisma';
 import cookie from 'cookie';
 import jwt from 'jsonwebtoken';
 
-const tokenSecret = process.env.TOKEN_SECRET as string
+const tokenSecret = process.env.TOKEN_SECRET as string;
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
@@ -32,9 +32,11 @@ async function signUpHandler(req: NextApiRequest, res: NextApiResponse) {
         });
     } catch (error) {
         console.log(error);
+        res.status(500).json({ message: 'User already exist' });
+        return;
     }
 
-    const token = jwt.sign({ user }, tokenSecret , { expiresIn: '8h' });
+    const token = jwt.sign({ user }, tokenSecret, { expiresIn: '8h' });
 
     res.setHeader(
         'set-Cookie',
