@@ -2,14 +2,13 @@ import { Button, Flex, FormControl, FormLabel, IconButton, Input, Text } from '@
 import { TiSocialGithub, TiSocialTwitter } from 'react-icons/ti';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
+import { FormInput } from '../../atoms/FormInput/FormInput';
 
 export const SignInForm = () => {
     return (
         <FormControl isRequired>
-            <FormLabel>Email</FormLabel>
-            <Input type='email' placeholder='xyz@gmail.com'></Input>
-            <FormLabel>Password</FormLabel>
-            <Input type='password' placeholder='*******'></Input>
+            <FormInput type='email' label='Email' name='email' placeholder='xyz@gmail.com' />
+            <FormInput type='password' label='Password' name='password' placeholder='******' />
             <Button type='submit' mt='4'>
                 Login
             </Button>
