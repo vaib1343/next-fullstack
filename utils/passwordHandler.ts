@@ -5,7 +5,7 @@ const generatePass = (password: string) => {
     return bcrypt.hashSync(password, salt);
 };
 
-const verifyPass = (password: string, userPassword: string) => {
+const verifyPass = (password: string, userPassword: string | null | undefined) => {
     if (password && userPassword) {
         return bcrypt.compareSync(password, userPassword);
     }

@@ -23,8 +23,10 @@ export const SignUpForm = () => {
     };
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const {value, name} = event.target;
-        userInfo[name] = value;
+        const { value, name } = event.target;
+        if (name === 'firstName' || name === 'lastName' || name === 'password' || name === 'email') {
+            userInfo[name] = value;
+        }
     };
 
     return (

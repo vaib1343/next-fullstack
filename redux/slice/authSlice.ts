@@ -15,14 +15,20 @@ const intialState: authType = {
 export const userSignupThunk = createAsyncThunk('user/signup', async (userInfo: { firstName: string; lastName: string; password: string; email: string }, thunkAPI) => {
     try {
         const resposne = await http('/authv2/signup', 'POST', userInfo);
-        console.log(resposne);
         return resposne;
     } catch (error) {
         thunkAPI.rejectWithValue(error);
     }
 });
 
-// export const userSigninThunk = createAsyncThunk('user/signin', async ())
+export const userSigninThunk = createAsyncThunk('user/signin', async (userInfo: { email: string; password: string }, thunkAPI) => {
+    try {
+        const response = await http('/authv2/login', 'POST', userInfo);
+        return response;
+    } catch (error) {
+        thunkAPI.rejectWithValue(error);
+    }
+});
 
 export const authSlice = createSlice({
     name: 'auth',
@@ -37,6 +43,16 @@ export const authSlice = createSlice({
             state.user = action.payload;
         });
         builder.addCase(userSignupThunk.rejected, (state, action) => {
+            state.loading = 'failed';
+        });
+        builder.addCase(userSigninThunk.pending, (state, payload) => {
+            state.loading = 'pending';
+        });
+        builder.addCase(userSigninThunk.fulfilled, (state, action) => {
+            state.loading = 'succeeded';
+            state.user = action.payload;
+        });
+        builder.addCase(userSigninThunk.rejected, (state, action) => {
             state.loading = 'failed';
         });
     },

@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../../utils/prisma';
 import cookie from 'cookie';
 import jwt from 'jsonwebtoken';
+import { verifyPass } from '../../../utils/passwordHandler';
 
 const tokenSecret = process.env.TOKEN_SECRET as string;
 
@@ -23,10 +24,10 @@ async function loginHandler(req: NextApiRequest, res: NextApiResponse) {
                 email,
             },
         });
-        if (!user) {
-            res.status(404).json({ message: 'User not found' });
+        if (!user || !verifyPass(password, user?.password)) {
+            res.status(401).json({ message: 'Wrong credentials' });
         }
-        const token = jwt.sign({ user }, tokenSecret, { expiresIn: '8h' });
+        const token = jwt.sign({ ...user }, tokenSecret, { expiresIn: '8h' });
         res.setHeader(
             'set-Cookie',
             cookie.serialize('TRAX_ACCESS_TOKEN', token, {
@@ -38,6 +39,6 @@ async function loginHandler(req: NextApiRequest, res: NextApiResponse) {
             })
         )
             .status(200)
-            .json({ user });
+            .json({ ...user });
     } catch (error) {}
 }

@@ -1,15 +1,49 @@
-import { Button, Flex, FormControl, FormLabel, IconButton, Input, Text } from '@chakra-ui/react';
-import { TiSocialGithub, TiSocialTwitter } from 'react-icons/ti';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import { TiSocialGithub, TiSocialTwitter } from 'react-icons/ti';
+import { Button, Flex, FormControl, FormLabel, IconButton, Input, Text } from '@chakra-ui/react';
 import { signIn } from 'next-auth/react';
 import { FormInput } from '../../atoms/FormInput/FormInput';
+import { useAppDispatch } from '../../../redux/hooks';
+import { userSigninThunk } from '../../../redux/slice/authSlice';
+
+type StateType = {
+    email: string;
+    password: string;
+};
 
 export const SignInForm = () => {
+    const dispatch = useAppDispatch();
+    const router = useRouter();
+    const [userInfo, setUserInfo] = useState<StateType>({} as StateType);
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+        if (name === 'email' || name === 'password') {
+            setUserInfo((preState) => ({
+                ...preState,
+                [name]: value,
+            }));
+        }
+    };
+
+    const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        dispatch(userSigninThunk(userInfo))
+            .unwrap()
+            .then((res) => {
+                if (Object.keys(res).length) {
+                    router.push('/');
+                }
+            });
+    };
+
     return (
         <FormControl isRequired>
-            <FormInput type='email' label='Email' name='email' placeholder='xyz@gmail.com' />
-            <FormInput type='password' label='Password' name='password' placeholder='******' />
-            <Button type='submit' mt='4'>
+            <FormInput type='email' label='Email' name='email' placeholder='xyz@gmail.com' value={userInfo.email} onChange={handleChange} />
+            <FormInput type='password' label='Password' name='password' placeholder='******' value={userInfo.password} onChange={handleChange} />
+            <Button type='submit' mt='4' onClick={handleSubmit}>
                 Login
             </Button>
             {/* <Flex my='2' justifyContent='center' alignItems='center'>

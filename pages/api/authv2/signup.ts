@@ -31,7 +31,6 @@ async function signUpHandler(req: NextApiRequest, res: NextApiResponse) {
             },
         });
     } catch (error) {
-        console.log(error);
         res.status(500).json({ message: 'User already exist' });
         return;
     }
