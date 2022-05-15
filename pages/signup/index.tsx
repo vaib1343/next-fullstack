@@ -16,3 +16,5 @@ export default function SignUp() {
         </Flex>
     );
 }
+
+SignUp.authPage = true;

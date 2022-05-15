@@ -1,5 +1,6 @@
 import { Button, Flex, FormControl, FormLabel, IconButton, Input, Text } from '@chakra-ui/react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { TiSocialGithub, TiSocialTwitter } from 'react-icons/ti';
 import { useAppDispatch } from '../../../redux/hooks';
@@ -14,12 +15,17 @@ type StateType = {
 };
 
 export const SignUpForm = () => {
+    const router = useRouter();
     const dispatch = useAppDispatch();
     const [userInfo, setUserInfo] = useState<StateType>({} as StateType);
 
     const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        dispatch(userSignupThunk(userInfo));
+        dispatch(userSignupThunk(userInfo)).unwrap().then(res => {
+            if(Object.keys(res).length){
+                router.push('/')
+            }
+        })
     };
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {

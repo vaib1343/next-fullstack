@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { useAppselector } from '../../../redux/hooks';
+import { useAppDispatch, useAppselector } from '../../../redux/hooks';
+import { getUser } from '../../../redux/slice/authSlice';
 
 type AuthContextType = {
     children: JSX.Element;
@@ -7,9 +8,10 @@ type AuthContextType = {
 
 const AuthContext = ({ children }: AuthContextType) => {
     const user = useAppselector((state) => state.auth.user);
+    const dispatch = useAppDispatch();
     useEffect(() => {
         if (!Object.keys(user).length) {
-            console.log('should call user value');
+            dispatch(getUser());
         }
     });
     return children;

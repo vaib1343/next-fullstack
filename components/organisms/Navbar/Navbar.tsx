@@ -1,23 +1,23 @@
-import { Button, Flex, HStack, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, HStack, IconButton, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 import { MenuItem } from '../../molecules/MenuItems/MenuItem';
-
+import { RiPlayListAddLine, RiArchiveDrawerLine, RiListCheck } from 'react-icons/ri';
 export default function Navbar() {
     return (
-        <Flex width='100vw' flexDirection='row' alignItems='center' padding='10px 20px'>
-            <Text cursor='pointer' fontWeight='bold' lineHeight='42px' color='#1f79ba' fontSize='36px' flexGrow={1}>
+        <Flex width='100vw' justifyContent='center' alignItems='center'>
+            <Flex boxShadow='lg' padding='1rem 2rem' borderRadius='1rem'>
                 <Link href='/'>
-                    <a>SuperApp</a>
+                    <a>
+                        <IconButton aria-label='List Task' mr='2rem' icon={<RiListCheck />} />
+                    </a>
                 </Link>
-            </Text>
-            <HStack spacing='16px' alignContent='center'>
-                <MenuItem href='/blog' text='Blog' />
-                <MenuItem href='/product' text='Product' />
-                <MenuItem href='/pricing' text='Pricing' />
-            </HStack>
-            <Button variant='solid' bgColor='#1f79ba' color='white' marginLeft='82px'>
-                Get Started
-            </Button>
+                <Link href='/createTask'>
+                    <a>
+                        <IconButton aria-label='Add Task' mr='2rem' icon={<RiPlayListAddLine />} />
+                    </a>
+                </Link>
+                <IconButton aria-label='Delete Task' icon={<RiArchiveDrawerLine />} />
+            </Flex>
         </Flex>
     );
 }

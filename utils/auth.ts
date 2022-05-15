@@ -24,7 +24,6 @@ export const validateRoute = (handler: (req: NextApiRequest, res: NextApiRespons
             res.status(401).json({ message: error.message });
             return;
         }
-        console.log(user);
         return handler(req, res, user);
     };
 };

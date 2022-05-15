@@ -5,7 +5,7 @@ import { TiSocialGithub, TiSocialTwitter } from 'react-icons/ti';
 import { Button, Flex, FormControl, FormLabel, IconButton, Input, Text } from '@chakra-ui/react';
 import { signIn } from 'next-auth/react';
 import { FormInput } from '../../atoms/FormInput/FormInput';
-import { useAppDispatch } from '../../../redux/hooks';
+import { useAppDispatch, useAppselector } from '../../../redux/hooks';
 import { userSigninThunk } from '../../../redux/slice/authSlice';
 
 type StateType = {
@@ -15,6 +15,7 @@ type StateType = {
 
 export const SignInForm = () => {
     const dispatch = useAppDispatch();
+    const { status } = useAppselector((state) => state.auth);
     const router = useRouter();
     const [userInfo, setUserInfo] = useState<StateType>({} as StateType);
 
@@ -43,7 +44,7 @@ export const SignInForm = () => {
         <FormControl isRequired>
             <FormInput type='email' label='Email' name='email' placeholder='xyz@gmail.com' value={userInfo.email} onChange={handleChange} />
             <FormInput type='password' label='Password' name='password' placeholder='******' value={userInfo.password} onChange={handleChange} />
-            <Button type='submit' mt='4' onClick={handleSubmit}>
+            <Button isLoading={status === 'pending'} type='submit' mt='4' onClick={handleSubmit}>
                 Login
             </Button>
             {/* <Flex my='2' justifyContent='center' alignItems='center'>

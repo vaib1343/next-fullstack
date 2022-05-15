@@ -10,15 +10,10 @@ const Home: NextPage = () => {
     return (
         <div>
             <Head>
-                <title>SuperApp</title>
+                <title>Task Manager</title>
                 <meta name='description' content='todo application' />
             </Head>
-            <Navbar />
-            <Flex>
-                <Hero />
-            </Flex>
-            <LandingBody />
-            <LandingFooter />
+           
         </div>
     );
 };

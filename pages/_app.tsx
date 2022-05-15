@@ -6,12 +6,20 @@ import { store } from '../redux/store';
 import { useEffect } from 'react';
 import { useAppselector } from '../redux/hooks';
 import AuthContext from '../components/organisms/AuthContext/AuthContext';
+import Navbar from '../components/organisms/Navbar/Navbar';
 function MyApp({ Component, pageProps }: AppProps) {
     return (
         <Provider store={store}>
             <ChakraProvider>
                 <AuthContext>
-                    <Component {...pageProps} />
+                    {Component.authPage ? (
+                        <Component {...pageProps} />
+                    ) : (
+                        <>
+                            <Navbar />
+                            <Component {...pageProps} />
+                        </>
+                    )}
                 </AuthContext>
             </ChakraProvider>
         </Provider>

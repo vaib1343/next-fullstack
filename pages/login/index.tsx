@@ -16,3 +16,5 @@ export default function Login() {
         </Flex>
     );
 }
+
+Login.authPage = true
